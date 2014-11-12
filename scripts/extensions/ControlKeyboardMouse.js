@@ -53,23 +53,40 @@ ENGINE2D.ControlKeyboardMouse.prototype.OnKeyUp = function (event) {
 };
 
 ENGINE2D.ControlKeyboardMouse.prototype.OnMouseDown = function (event) {
-	var action = this.keyMap[ENGINE2D.STATE_MOUSE];
-	if (action === undefined) { return; }
-	var inputState = this.states[action];
-	inputState.type = ENGINE2D.INPUTTYPE_MOUSE;
-	inputState.state = ENGINE2D.INPUTSTATE_ACTIVE;
+	this._OnMouse(ENGINE2D.INPUTSTATE_ACTIVE,event);
 };
 
 ENGINE2D.ControlKeyboardMouse.prototype.OnMouseUp = function (event) {
-	var action = this.keyMap[ENGINE2D.STATE_MOUSE];
+	this._OnMouse(ENGINE2D.INPUTSTATE_INACTIVE,event);
+};
+
+ENGINE2D.ControlKeyboardMouse.prototype._OnMouse = function (state, event) {
+	var action = undefined;
+	
+	switch (event.which) {
+		case ENGINE2D.CONTROL_MOUSELEFT: {
+			action = this.keyMap[ENGINE2D.STATE_LEFTMOUSE];
+		} break;
+		case ENGINE2D.CONTROL_MOUSEMIDDLE: {
+			action = this.keyMap[ENGINE2D.STATE_MIDDLEMOUSE];
+		} break;
+		case ENGINE2D.CONTROL_MOUSERIGHT: {
+			action = this.keyMap[ENGINE2D.STATE_MIDDLEMOUSE];
+		} break;
+		default: {
+			action = this.keyMap[ENGINE2D.STATE_OTHERMOUSE];
+		}
+	}
+
 	if (action === undefined) { return; }
 	var inputState = this.states[action];
 	inputState.type = ENGINE2D.INPUTTYPE_MOUSE;
-	inputState.state = ENGINE2D.INPUTSTATE_INACTIVE;
+	inputState.state = state;
+	inputState.event = event;
 };
 
 ENGINE2D.ControlKeyboardMouse.prototype.OnMouseMove = function (event) {
-	var action = this.keyMap[ENGINE2D.STATE_MOUSE];
+	var action = this.keyMap[ENGINE2D.STATE_MOUSEMOVE];
 	if (action === undefined) { return; }
 	this.states[action].event = event;
 };
