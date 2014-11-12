@@ -1,0 +1,33 @@
+{
+	"camera": {
+		"zoom": 1,
+		"aspect": 1.77777777778,
+		"position": {"x": 0.0, "y": 0.0},
+		"front": {"x": 0.0, "y": 0.0},
+		"state": 0,
+		"interactionid": -1
+	},
+	"objects": [
+		"fileName"
+	],
+	"materials": [
+		"fileName"
+	],
+	"audios": [
+		"fileName"
+	],
+	"instances": [
+		{
+			"flag": 0,
+			"type": 0,
+			"layer": 0,
+			"front": {"x": 0 ,"y": 1},
+			"position": {"x": 0 ,"y": 0},
+			"state": 0,
+			"materialid": 0,
+			"audioid": 0,
+			"instanceof": 0,
+			"interactionid": -1
+		}
+	]
+}

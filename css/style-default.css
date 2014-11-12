@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: "Myriad Pro";
+	src: local("?"),
+		url(../fonts/MyriadPro-Regular.otf) format("opentype");
+}
+
+@font-face {
+	font-family: "Myriad Pro";
+	font-style: italic;
+	src: local("?"),
+		url(../fonts/MyriadPro-It.otf) format("opentype");
+}
+
+@font-face {
+	font-family: "Myriad Pro";
+	font-weight: bold;
+	src: local("?"),
+		url(../fonts/MyriadPro-Bold.otf) format("opentype");
+}
+
+.style-default {
+	font-size: 14pt;
+	font-family: "Myriad Pro", Arial, Helvetica, sans-serif;
+	line-height: 1.3pt;
+}

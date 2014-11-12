@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+html, body {
+	width:  100%;
+	height: 100%;
+}
+
+canvas { 
+	display:block; 
+}
+
+.default {
+	overflow: hidden;
+
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: top left;
+	background-size: 100% auto;
+
+	position: relative;
+	top:0;
+	left:0;
+
+	display: block;
+	margin: 0;
+	padding: 0;
+	
+	line-height: 0;
+	text-align: left;
+	vertical-align: top;
+}
+
+.default .hspacer {
+	clear: both;
+	height: 0;
+	padding: 0;
+	margin: 0;
+	line-height: 0;
+}
+
+.default .wrapper {
+	padding: 0;
+	margin: 0;
+	line-height: 0;
+	display: auto;
+}

@@ -1,0 +1,10 @@
+{
+	"data": "fileName",
+	"type": 0,
+	"fps": 60,
+	"duration": 10,
+	"nstates": 4,
+	"loop": true,
+	"interactionid": -1,
+	"framesize": {"w": 32, "h": 32}
+}
