@@ -71,7 +71,7 @@ ENGINE2D.ControlKeyboardMouse.prototype._OnMouse = function (state, event) {
 			action = this.keyMap[ENGINE2D.STATE_MIDDLEMOUSE];
 		} break;
 		case ENGINE2D.CONTROL_MOUSERIGHT: {
-			action = this.keyMap[ENGINE2D.STATE_MIDDLEMOUSE];
+			action = this.keyMap[ENGINE2D.STATE_RIGHTMOUSE];
 		} break;
 		default: {
 			action = this.keyMap[ENGINE2D.STATE_OTHERMOUSE];

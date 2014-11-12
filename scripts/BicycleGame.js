@@ -20,7 +20,7 @@ ENGINE2D.BicycleGame.prototype.OnSetUp = function () {
 	keyMap[ENGINE2D.STATE_S] = 'break';
 	keyMap[ENGINE2D.STATE_A] = 'moveleft';
 	keyMap[ENGINE2D.STATE_D] = 'moveright';
-	keyMap[ENGINE2D.STATE_MOUSE] = 'steer';
+	keyMap[ENGINE2D.STATE_MOUSEMOVE] = 'steer';
 	var control = new ENGINE2D.ControlKeyboardMouse(this.container, this.logManager);
 	control.SetKeyMap(keyMap);
 	this.game.AddControl('keyboardmouse',control);
