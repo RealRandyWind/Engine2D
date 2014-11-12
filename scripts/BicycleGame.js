@@ -1,11 +1,11 @@
-ENGINE2D.BicycleGame = function (configuration, loadingManager, logManager) {
+BicycleGame = function (configuration, loadingManager, logManager) {
 	ENGINE2D.Simulator.call(this, loadingManager, logManager);
 	this.configuration = configuration;
 };
 
-ENGINE2D.BicycleGame.prototype = Object.create(ENGINE2D.Simulator.prototype);
+BicycleGame.prototype = Object.create(ENGINE2D.Simulator.prototype);
 
-ENGINE2D.BicycleGame.prototype.BeforeSetUp = function () {
+BicycleGame.prototype.BeforeSetUp = function () {
 	/*STUB START*/
 	this.game.AddLoader('image',new ENGINE2D.ImageLoader(this.loadingManager,this.logManager));
 	
@@ -13,7 +13,7 @@ ENGINE2D.BicycleGame.prototype.BeforeSetUp = function () {
 	this.logManager.Success('[BicycleGame.BeforeSetUp]');
 };
 
-ENGINE2D.BicycleGame.prototype.OnSetUp = function () {	
+BicycleGame.prototype.OnSetUp = function () {	
 	/*STUB START*/
 	var keyMap = {};
 	keyMap[ENGINE2D.STATE_W] = 'cycle';
@@ -72,17 +72,17 @@ ENGINE2D.BicycleGame.prototype.OnSetUp = function () {
 	this.logManager.Success('[BicycleGame.OnSetUp]');
 };
 
-ENGINE2D.BicycleGame.prototype.OnShutDown = function () {
+BicycleGame.prototype.OnShutDown = function () {
 	/*INTERFACE*/
 	this.logManager.Success('[BicycleGame.OnShutDown]');
 };
 
-ENGINE2D.BicycleGame.prototype.OnInterpolate = function (alpha) {
+BicycleGame.prototype.OnInterpolate = function (alpha) {
 	/*INTERFACE*/
 	/*this.logManager.Debug('[BicycleGame.OnInterpolate]');*/
 };
 
-ENGINE2D.BicycleGame.prototype.OnSimulate = function (t, dt) {
+BicycleGame.prototype.OnSimulate = function (t, dt) {
 	/*STUB START*/
 	var control = this.game.gameState.control;
 	var scene = this.game.gameState.scene;
@@ -102,27 +102,27 @@ ENGINE2D.BicycleGame.prototype.OnSimulate = function (t, dt) {
 	*/
 },
 
-ENGINE2D.BicycleGame.prototype.EvaluateInput = function () {
+BicycleGame.prototype.EvaluateInput = function () {
 	/*INTERFACE*/
 	/*this.logManager.Debug('[BicycleGame.EvaluateInput]');*/
 };
 
-ENGINE2D.BicycleGame.prototype.EvaluateGameLogics = function () {
+BicycleGame.prototype.EvaluateGameLogics = function () {
 	/*INTERFACE*/
 	/*this.logManager.Debug('[BicycleGame.EvaluateGameLogics]');*/
 };
 
-ENGINE2D.BicycleGame.prototype.UpdateGameWorld = function () {
+BicycleGame.prototype.UpdateGameWorld = function () {
 	/*INTERFACE*/	
 	/*this.logManager.Debug('[BicycleGame.UpdateGameWorld]');*/
 };
 
-ENGINE2D.BicycleGame.prototype.UpdateCameras = function () {
+BicycleGame.prototype.UpdateCameras = function () {
 	/*INTERFACE*/
 	/*this.logManager.Debug('[BicycleGame.UpdateCameras]');*/
 };
 
-ENGINE2D.BicycleGame.prototype.UpdateGameState = function () {
+BicycleGame.prototype.UpdateGameState = function () {
 	/*INTERFACE*/
 	/*this.logManager.Debug('[BicycleGame.UpdateGameState]');*/
 };

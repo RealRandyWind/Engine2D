@@ -46,9 +46,14 @@ ENGINE2D.Vector.prototype = {
 	},
 
 	ApplyVector2: function (operators, vector) {
+		if (operators.length !== vector.length) {
+			console.warn('_WARNING: [Vector.ApplyVector2]');
+			return;
+		}
+
 		for ( var propertie in vector) {
 			if (vector.hasOwnProperty(propertie)) {
-				this._ApplyOperation(propertie, operators[propertie], this.properties[propertie]);
+				this._ApplyOperation(propertie, operators[propertie], this.properties[propertie], vector);
 			}
 		}
 	},
@@ -61,7 +66,7 @@ ENGINE2D.Vector.prototype = {
 		return this.properties;
 	},
 
-	_ApplyOperation: function (propertie, operator, value) {
+	_ApplyOperation: function (propertie, operator, value, properties2) {
 		if(operator === undefined || value === undefined) {
 			console.error('_ERROR: [Vector._ApplyOperation] operator or argument undefined');
 			return;
@@ -87,6 +92,24 @@ ENGINE2D.Vector.prototype = {
 			} break;
 			case ENGINE2D.VECTOROP_ASS: {
 				this.properties[propertie] = value;
+			} break;
+			case ENGINE2D.VECTOROP_SWAP: {
+				var temp = this.properties[propertie]; this.properties[propertie] = value; properties2[propertie] = temp;
+			} break;
+			case ENGINE2D.VECTOROP_INSERT: {
+				this.properties[propertie].Insert(value);
+			} break;
+			case ENGINE2D.VECTOROP_REMOVE: {
+				this.properties[propertie].Remove(value);
+			} break;
+			case ENGINE2D.VECTOROP_UNION: {
+				this.properties[propertie].Union(value);
+			} break;
+			case ENGINE2D.VECTOROP_INTERSECT: {
+				this.properties[propertie].Intersect(value);
+			} break;
+			case ENGINE2D.VECTOROP_DIFFERENCE: {
+				this.properties[propertie].Difference(value);
 			} break;
 			default: { 
 				console.warn('_WARNING: [Vector._ApplyOperation] invalid type.');

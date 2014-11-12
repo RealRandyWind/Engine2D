@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
 	pTarget = fopen(argv[iBegin-1], "w+");
 	if (!pTarget) {
 		std::cout << "error with targetFile and sourceDir"  << std::endl;
-		return 1; 
+		return 1;
 	}
 
 	for (int i = iBegin; i < argc; ++i)
