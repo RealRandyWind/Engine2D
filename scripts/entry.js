@@ -1,7 +1,6 @@
-$(document).ready(function() {
+window.addEventListener('load', function() {
 	logManager = new ENGINE2D.LogManager();
 	loadingManager = new ENGINE2D.LoadingManager(logManager);
-
 	interval = new ENGINE2D.Interval(logManager);
 	renderer = new ENGINE2D.Renderer(logManager);
 	simulator = new BicycleGame({},loadingManager,logManager);
@@ -11,5 +10,4 @@ $(document).ready(function() {
 	game.SetUp();
 	renderer.FullScreen();
 	game.Start();
-	//game.Interupt();
 });

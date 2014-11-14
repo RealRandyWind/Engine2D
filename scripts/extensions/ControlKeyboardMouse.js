@@ -36,20 +36,24 @@ ENGINE2D.ControlKeyboardMouse.prototype.ShutDown = function () {
 
 ENGINE2D.ControlKeyboardMouse.prototype.OnKeyDown = function (event) {
 	var action = this.keyMap[event.keyCode];
+	logManager.Debug('[ControlKeyboardMouse.OnKeyDown] I semie work');
 	if (action === undefined) { return; }
 	var inputState = this.states[action];
 	inputState.type = ENGINE2D.INPUTTYPE_KEY;
 	inputState.state = ENGINE2D.INPUTSTATE_ACTIVE;
 	inputState.event = event;
+	logManager.Debug('[ControlKeyboardMouse.OnKeyDown] I work');
 };
 
 ENGINE2D.ControlKeyboardMouse.prototype.OnKeyUp = function (event) {
 	var action = this.keyMap[event.keyCode];
+	logManager.Debug('[ControlKeyboardMouse.OnKeyDown] I semie work');
 	if (action === undefined) { return; }
 	var inputState = this.states[action];
 	inputState.type = ENGINE2D.INPUTTYPE_KEY;
 	inputState.state = ENGINE2D.INPUTSTATE_INACTIVE;
 	inputState.event = event;
+	logManager.Debug('[ControlKeyboardMouse.OnKeyUp] I work');
 };
 
 ENGINE2D.ControlKeyboardMouse.prototype.OnMouseDown = function (event) {
