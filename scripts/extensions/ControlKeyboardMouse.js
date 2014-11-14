@@ -47,7 +47,7 @@ ENGINE2D.ControlKeyboardMouse.prototype.OnKeyDown = function (event) {
 
 ENGINE2D.ControlKeyboardMouse.prototype.OnKeyUp = function (event) {
 	var action = this.keyMap[event.keyCode];
-	logManager.Debug('[ControlKeyboardMouse.OnKeyDown] I semie work');
+	logManager.Debug('[ControlKeyboardMouse.OnKeyUp] I semie work');
 	if (action === undefined) { return; }
 	var inputState = this.states[action];
 	inputState.type = ENGINE2D.INPUTTYPE_KEY;
