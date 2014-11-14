@@ -103,8 +103,8 @@ ENGINE2D.Object2D.prototype = {
 		this.isChangedSpecial = true;
 
 		/*TODO checkit*/
-		this.rotation.Rotate2(theta);
 		this.transformation.ApplyTranslate2(-p.x,-p.y);
+		this.transformation.Rotate2(theta);
 
 		/*console.warn('_WARNING: [Object2D.RotateAround] function not yet proper');*/
 		return this;

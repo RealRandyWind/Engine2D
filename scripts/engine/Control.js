@@ -25,8 +25,8 @@ ENGINE2D.Control.prototype = {
 		return this;
 	},
 
-	Update: function (key, state, event, previous, next) {
-		var inputState = this.states[key];
+	Update: function (action, state, event, previous, next) {
+		var inputState = this.states[action];
 		if(inputState === undefined ) {
 			this.logManager.Warning('[Control.Update] state not present');
 			return this;
@@ -37,9 +37,9 @@ ENGINE2D.Control.prototype = {
 		return this;
 	},
 
-	AddState: function (key) {
-		if(this.states[key] === undefined ) {
-			this.states[key] = new ENGINE2D.InputState();
+	AddState: function (action) {
+		if(this.states[action] === undefined ) {
+			this.states[action] = new ENGINE2D.InputState();
 			return this;
 		}
 
@@ -47,23 +47,24 @@ ENGINE2D.Control.prototype = {
 		return this;
 	},
 
-	RemoveState: function (key) {
-		if(this.states[key] === undefined ) {
+	RemoveState: function (action) {
+		if(this.states[action] === undefined ) {
 			this.logManager.Warning('[Control.RemoveState] state already not present');
 			return this;
 		}
 
-		delete this.states[key];
+		delete this.states[action];
 		
 		return this;
 	},
 
-	GetState: function (key) {
-		if(this.states[key] === undefined ) {
+	GetState: function (action) {
+		var inputState = this.states[action];
+		if(inputState === undefined ) {
 			this.logManager.Warning('[Control.GetState] state not present');
 		}
 
-		return this.states[key];
+		return inputState;
 	}
 
 };

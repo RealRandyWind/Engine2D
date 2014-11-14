@@ -88,9 +88,17 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 	var scene = this.game.gameState.scene;
 	var camera = scene.Get(ENGINE2D.OBJECT2DTYPE_CAMERA,0);
 	var object = camera.GetParent();
-	object.TranslateOn(object.direction,control.GetState('cycle').state);
+	var input = control.GetState('cycle');
+	
+	if (input.type >= 0) {
+		object.TranslateOn(object.direction,input.state);
+		object.UpdateMatrix();
+	}
+	
 	camera.MoveTo(object.position);
 	camera.UpdateMatrix();
+
+	
 	/*STUB END*/
 	/*
 	this.EvaluateInput();
