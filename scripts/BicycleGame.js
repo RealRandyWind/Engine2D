@@ -17,9 +17,10 @@ BicycleGame.prototype.OnSetUp = function () {
 	/*STUB START*/
 	var keyMap = {};
 	keyMap[ENGINE2D.STATE_W] = 'cycle';
-	keyMap[ENGINE2D.STATE_S] = 'break';
+	keyMap[ENGINE2D.STATE_S] = 'moveback';
 	keyMap[ENGINE2D.STATE_A] = 'moveleft';
 	keyMap[ENGINE2D.STATE_D] = 'moveright';
+	keyMap[ENGINE2D.STATE_SPACE] = 'break';
 	keyMap[ENGINE2D.STATE_MOUSEMOVE] = 'steer';
 	var control = new ENGINE2D.ControlKeyboardMouse(this.container, this.logManager);
 	control.SetKeyMap(keyMap);
@@ -57,6 +58,8 @@ BicycleGame.prototype.OnSetUp = function () {
 
 	this.game.AddScene(scene);
 	this.game.AddCamera(camera);
+	this.game.AddObject(staticObject);
+	this.game.AddObject(staticObject2);
 	
 	scene.Add(staticObject2);
 	scene.Add(staticObject);
@@ -88,16 +91,34 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 	var scene = this.game.gameState.scene;
 	var camera = scene.Get(ENGINE2D.OBJECT2DTYPE_CAMERA,0);
 	var object = camera.GetParent();
-	var input = control.GetState('cycle');
 	
-	if (input.type >= 0) {
-		object.TranslateOn(object.direction,input.state);
-		object.UpdateMatrix();
-	}
+	var inputCycle = control.GetState('cycle');
+	var inputMoveBack = control.GetState('moveback');
+	var inputMoveLeft = control.GetState('moveleft');
+	var inputMoveRight = control.GetState('moveright');
+	var inputSteer = control.GetState('steer');
+
+	var rightHand = object.direction.Copy().Perpendicular();
+
+	/* use mouse point and look at the point in world coordinates
+	var point = new ENGINE2D.Vector2(inputSteer.event.clientX, inputSteer.event.clientY);
+	// do magick with mousePoint and LookAt or Rotate
+	object.Rotate(alpha);
+	object.LookAt(point);
+	// Note we have to update child objects.
+	*/
+
+	
+	
+	object.TranslateOn(object.direction, inputCycle.state - inputMoveBack.state);
+	object.TranslateOn(rightHand, inputMoveRight.state - inputMoveLeft.state);
+
+	object.UpdateMatrix();
+
+	/*move ments are still inverted*/
 	
 	camera.MoveTo(object.position);
 	camera.UpdateMatrix();
-
 	
 	/*STUB END*/
 	/*

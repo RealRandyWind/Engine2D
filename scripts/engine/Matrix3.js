@@ -27,20 +27,20 @@ ENGINE2D.Matrix3.prototype = {
 	},
 
 	ScaleUniform: function (c) {
-		this.a11 *= c;
-		this.a22 *= c;
+		this.a11 *= c; this.a12 *= c; this.a13 *= c;
+		this.a21 *= c; this.a22 *= c; this.a23 *= c;
 	},
 
 	Scale2: function (cx,cy) {
-		this.a11 *= cx;
-		this.a22 *= cy;
+		this.a11 *= cx; this.a12 *= cx; this.a13 *= cx;
+		this.a21 *= cy; this.a22 *= cy; this.a23 *= cy;
 
 		return this;
 	},
 
 	ScaleVector2: function (c) {
-		this.a11 *= c.x;
-		this.a22 *= c.y;
+		this.a11 *= c.x; this.a12 *= c.x; this.a13 *= c.x;
+		this.a21 *= c.y; this.a22 *= c.y; this.a23 *= c.y;
 
 		return this;
 	},

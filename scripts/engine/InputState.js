@@ -1,6 +1,6 @@
 ENGINE2D.InputState = function () {
 	this.type = -1;
-	this.state = -1;
+	this.state = 0;
 	this.event = undefined;
 	this.previous = null;
 	this.next = null;

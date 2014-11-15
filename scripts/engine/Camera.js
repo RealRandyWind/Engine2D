@@ -12,11 +12,13 @@ ENGINE2D.Camera.prototype = Object.create(ENGINE2D.Empty.prototype);
 
 ENGINE2D.Camera.prototype.SetAspect = function (aspect) {
 	this.aspect = aspect;
+	console.warn('_WARNING: [Camera.SetAspect] function not yet proper');
 };
 
 ENGINE2D.Camera.prototype.Zoom = function (alpha) {
 	/* TODO Not jet correct*/
 	this.zoom *= alpha;
+	console.warn('_WARNING: [Camera.prototype] function not yet proper');
 };
 
 ENGINE2D.Camera.prototype.GetViewMatrix = function () {

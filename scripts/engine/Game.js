@@ -252,6 +252,17 @@ ENGINE2D.Game.prototype = {
 		return this.materials[key];
 	},
 
+	AddObject: function (object) {
+		object.uid = this.objects.length;
+		this.objects.push(object);
+
+		return object.uid;
+	},
+
+	GetObject: function (key) {
+		return this.objects[key];
+	},
+
 	AddTransition: function (transition) {
 		transition.uid = this.transitions.length;
 		this.transitions.push(transition);

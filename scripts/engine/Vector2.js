@@ -174,7 +174,6 @@ ENGINE2D.Vector2.prototype = {
 		return this;
 	},
 
-
 	/*SPECIAL OPPERATINOS*/
 	ApplyMatrix3: function (m) {
 		this.x = m.a11 * this.x + m.a12 * m.y + m.a13;
@@ -263,6 +262,12 @@ ENGINE2D.Vector2.prototype = {
 
 	Normalize: function () {
 		return this.DivScalar(this.Length());
+	},
+
+	Perpendicular: function () {
+		var temp = this.x; this.x = -this.y; this.y = temp;
+
+		return this;
 	},
 
 	/*VECTOR OPPERATINOS*/

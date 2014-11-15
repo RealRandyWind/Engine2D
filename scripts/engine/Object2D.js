@@ -9,25 +9,18 @@ ENGINE2D.Object2D = function () {
 
 	this.position = new ENGINE2D.Vector2( 0.0, 0.0 );
 	this.direction = new ENGINE2D.Vector2( 0.0, 1.0 );
-	
-	this.moveTo = new ENGINE2D.Vector2( 0.0, 0.0 );
-	this.lookAt = new ENGINE2D.Vector2( 0.0, 1.0 );
-
 	this.scaling = new ENGINE2D.Vector2( 1.0, 1.0 );
 	this.rotation = 0.0;
-	this.translation = new ENGINE2D.Vector2( 0.0, 0.0 );
 	this.transformation = new ENGINE2D.Matrix3();
 
 	this.modelMatrix = new ENGINE2D.Matrix3();
 	
 	this.parent = null;
 	this.childeren = {};
+	this.isOfParentSpace = false;
 	this.isChangedNormal = false;
 	this.isChangedSpecial = false;
 	this.isRenderable = false;
-
-	this.isLookAt = true;
-	this.isMoveTo = true;
 };
 
 ENGINE2D.Object2D.prototype = {
@@ -37,56 +30,40 @@ ENGINE2D.Object2D.prototype = {
 	LookAt: function (p) {
 		/* TODO */
 		this.isChangedNormal = true;
-		this.isLookAt = true;
-		this.lookAt.Assign(p);
+		/*this.rotation*/
+		this.direction.Assign(p).Normalize();
 		/*console.warn('_WARNING: [Object2D.RotateAround] function not yet proper');*/
 		return this;
 	},
 
 	MoveTo: function (p) {
-		/* TODO */
-		this.isMoveTo = true;
-		this.moveTo.Assign(p);
-		/*console.warn('_WARNING: [Object2D.RotateAround] function not yet proper');*/
+		this.isChangedNormal = true;
+		this.position.Assign(p);
+		
 		return this;
 	},
 
 	Translate: function (v) {
 		this.isChangedNormal = true;
 
-		this.translation.Add(v);
+		this.position.Add(v);
 		
 		return this;
 	},
 
 	TranslateAlonge: function (axis, d) {
 		this.isChangedNormal = true;
-
-		this.translation.Add2( axis.x * d.x, axis.y * d.y );
+		/*Perpendicular*/
+		this.position.Add2( axis.x * d.x, axis.y * d.y );
 		
+		console.warn('_WARNING: [Object2D.TranslateAlonge] function not yet proper');
 		return this;
 	},
 
 	TranslateOn: function (axis, alpha) {
 		this.isChangedNormal = true;
 
-		this.translation.Add2( axis.x * alpha, axis.y * alpha );
-		
-		return this;
-	},
-
-	TranslateX: function (dx) {
-		this.isChangedNormal = true;
-
-		this.translate.x += dx;
-		
-		return this;
-	},
-
-	TranslateY: function (dy) {
-		this.isChangedNormal = true;
-
-		this.translate.y += dy;
+		this.position.Add2( axis.x * alpha, axis.y * alpha );
 		
 		return this;
 	},
@@ -94,6 +71,7 @@ ENGINE2D.Object2D.prototype = {
 	Rotate: function (theta) {
 		this.isChangedNormal = true;
 
+		/*this.direction*/
 		this.rotation += theta;
 
 		return this;
@@ -106,12 +84,15 @@ ENGINE2D.Object2D.prototype = {
 		this.transformation.ApplyTranslate2(-p.x,-p.y);
 		this.transformation.Rotate2(theta);
 
-		/*console.warn('_WARNING: [Object2D.RotateAround] function not yet proper');*/
+		/*decopose position and rotation and scaling*/
+
+		console.warn('_WARNING: [Object2D.RotateAround] function not yet proper');
 		return this;
 	},
 
 	ScaleUniform: function (alpha) {
 		this.isChangedNormal = true;
+		
 		this.scaling.MulScalar(alpha);
 
 		return this;
@@ -126,27 +107,14 @@ ENGINE2D.Object2D.prototype = {
 		return this;
 	},
 
-	ScaleX: function (alpha) {
-		this.isChangedNormal = true;
-
-		this.scaling.x *= alpha;
-
-		return this;
-	},
-
-	ScaleY: function (alpha) {
-		this.isChangedNormal = true;
-
-		this.scaling.y *= alpha;
-
-		return this;
-	},
-
 	Transform: function (m) {
 		this.isChangedSpecial = true;
 		
 		this.transformation.ApplyMatrix3(m);
 
+		/*decopose position and rotation and scaling*/
+
+		console.warn('_WARNING: [Object2D.Transform] function not yet proper');
 		return this;
 	},
 
@@ -155,34 +123,16 @@ ENGINE2D.Object2D.prototype = {
 		if (this.isChangedNormal) {
 			this.modelMatrix.Rotate2(this.rotation);
 			this.modelMatrix.ScaleVector2(this.scaling);
-			this.modelMatrix.TranslateVector2(this.translation);
-			this.rotation = 0;
-			this.scaling.SetOne();
-			this.translation.SetZero();
+			this.modelMatrix.SetTranslate2D(this.position);
 		}
 		
 		if (this.isChangedSpecial) {
 			this.modelMatrix.ApplyMatrix3(this.transformation);
-			this.transformation.SetIdentity();
-		}
-
-		if (this.isMoveTo) {
-			this.modelMatrix.SetTranslate2D(this.moveTo);
-			this.position.Assign(this.moveTo);
-		}
-
-		if (this.isLookAt) {
-			/*TODO SOMETHING
-			this.modelMatrix.Set2(a11, a12, a13, a21, a22, a23);
-			*/
-			this.direction.Assign(this.lookAt);
-			this.direction.Normalize();
+			console.warn('_WARNING: [Object2D.UpdateMatrix] function not yet proper');
 		}
 
 		this.isChangedSpecial = false;
 		this.isChangedNormal = false;
-
-		/*console.warn('_WARNING: [Object2D.UpdateMatrix] function not yet proper');*/
 
 		return this;
 	},
