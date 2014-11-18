@@ -87,6 +87,7 @@ ENGINE2D.Matrix3.prototype = {
 	},
 
 	/*ASSIGNMENT OPERATIONS*/
+
 	ApplyMatrices3: function (m,b) {
 		this.a11 = b.a11 * m.a11 + b.a12 * m.a21 + b.a13 * m.a31;
 		this.a21 = b.a21 * m.a11 + b.a22 * m.a21 + b.a23 * m.a31;
@@ -510,6 +511,13 @@ ENGINE2D.Matrix3.prototype = {
 	SetTranslate2: function (x, y) {
 		this.a13 = x;
 		this.a23 = y;
+	},
+
+	SetMVP: function (model,view,projection) {
+		this.ApplyMatrices3(projection,view);
+		this.ApplyMatrix3(model);
+
+		return this;
 	},
 
 	SetZero: function () {

@@ -89,16 +89,13 @@ ENGINE2D.Renderer.prototype = {
 		/* This is wrong since we ignore layers*/
 		var material = object.material;
 		var pivot = new ENGINE2D.Vector2(material.frame.x/2, material.frame.y/2);
-		var MVP = new ENGINE2D.Matrix3();
+		var MVP = new ENGINE2D.Matrix3().SetMVP(object.modelMatrix, viewMatrix, this.projectionMatrix);
 		/* Better Interpolation animation needed for imag now we just use round 
 		 * but image interpolation is heavy, though current solution gives us 
 		 * artifacts during animation play.
 		 */
 		var frames = Math.round(object.stateTime * material.fps);
 		frames = (material.loop ? (frames % material.fps) : Math.max(0,Math.min(frames, material.fps - 1)));
-
-		MVP.ApplyMatrices3(this.projectionMatrix, viewMatrix);
-		MVP.ApplyMatrix3(object.modelMatrix);
 
 		this.context.setTransform(MVP.a11, MVP.a21, MVP.a12, MVP.a22, MVP.a13, MVP.a23);
 		/* DEBUG START */

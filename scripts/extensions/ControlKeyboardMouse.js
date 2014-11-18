@@ -83,12 +83,17 @@ ENGINE2D.ControlKeyboardMouse.prototype._OnMouse = function (state, event) {
 	inputState.type = ENGINE2D.INPUTTYPE_MOUSE;
 	inputState.state = state;
 	inputState.event = event;
+	inputState.position.x = event.clientX;
+	inputState.position.y = event.clientY; 
+	inputState.position.isDefined = (event.clientX !== undefined) && (event.clientY !== undefined);
 };
 
 ENGINE2D.ControlKeyboardMouse.prototype.OnMouseMove = function (event) {
 	var action = this.keyMap[ENGINE2D.STATE_MOUSEMOVE];
 	if (action === undefined) { return; }
-	this.states[action].event = event;
+	var inputState = this.states[action];
+	inputState.event = event;
+	inputState.position = {x: event.clientX , y: event.clientY};
 };
 
 ENGINE2D.ControlKeyboardMouse.prototype.OnScroll = function (event) {

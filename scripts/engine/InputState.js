@@ -10,10 +10,11 @@ ENGINE2D.InputState.prototype = {
 
 	constructor: ENGINE2D.InputState,
 
-	Update: function (type, state, event, previous, next) {
+	Update: function (type, state, event, previous, next, x, y) {
 		this.type = type;
 		this.state = state;
 		this.event = event;
+		this.position = {x: x, y: y, isDefined: (x !== undefined) && (y !== undefined)};
 		this.previous = previous;
 		this.next = next;
 
@@ -49,6 +50,6 @@ ENGINE2D.InputState.prototype = {
 	},
 
 	Copy: function () {
-		return new ENGINE2D.InputState().Update(this.type, this.state, this.event, this.previous, this.next);
+		return new ENGINE2D.InputState().Update(this.type, this.state, this.event, this.previous, this.next, this.x, this.y);
 	}
 };
