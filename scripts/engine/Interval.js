@@ -41,7 +41,6 @@ ENGINE2D.Interval.prototype = {
 	},
 
 	GetFPS: function () {
-		if (this.realFrameTime === 0.0) { return Infinity; } 
 		return 1.0 / this.realFrameTime;
 	},
 	

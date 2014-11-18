@@ -52,7 +52,7 @@ BicycleGame.prototype.OnSetUp = function () {
 		new ENGINE2D.Vector2(0.0, 1.0)
 	).UpdateMatrix();
 
-	//camera.Zoom(2.0);
+	/*camera.Zoom(2.0);*/
 	camera.SetParent(staticObject2);
 	staticObject2.AddChild(camera);
 
@@ -97,7 +97,9 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 	var inputMoveLeft = control.GetState('moveleft');
 	var inputMoveRight = control.GetState('moveright');
 	var inputSteer = control.GetState('steer');
-
+	
+	inputSteer.SetPrevious(inputSteer.Copy());
+	inputSteer.previous.SetNext(inputSteer).SetPrevious(undefined);
 	var rightHand = object.direction.Copy().Perpendicular();
 
 	/* use mouse point and look at the point in world coordinates
@@ -108,10 +110,17 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 	// Note we have to update child objects.
 	*/
 
-	
-	
-	object.TranslateOn(object.direction, inputCycle.state - inputMoveBack.state);
-	object.TranslateOn(rightHand, inputMoveRight.state - inputMoveLeft.state);
+	var inputSteerLast = inputSteer.previous;
+	if (inputSteerLast !== undefined || inputSteerLast.event !== undefined) {
+		var theta = 0.0;
+		var point1 = new ENGINE2D.Vector2(inputSteerLast.event.clientX, inputSteerLast.event.clientY);
+		var point2 = new ENGINE2D.Vector2(inputSteer.event.clientX, inputSteer.event.clientY);
+		object.Rotate(theta);
+		camera.Rotate(theta);
+	}
+
+	object.MoveOn(object.direction, inputCycle.state - inputMoveBack.state);
+	object.MoveOn(rightHand, inputMoveRight.state - inputMoveLeft.state);
 
 	object.UpdateMatrix();
 
@@ -128,7 +137,7 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 	this.UpdateCameras();
 	this.UpdateGameState();
 	*/
-},
+};
 
 BicycleGame.prototype.EvaluateInput = function () {
 	/*INTERFACE*/

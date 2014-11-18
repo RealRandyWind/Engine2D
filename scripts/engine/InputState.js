@@ -34,5 +34,21 @@ ENGINE2D.InputState.prototype = {
 
 	GetEvent: function () {
 		return this.event;
+	},
+
+	SetNext: function (inputState) {
+		this.next = inputState;
+
+		return this;
+	},
+
+	SetPrevious: function (inputState) {
+		this.previous = inputState;
+
+		return this;
+	},
+
+	Copy: function () {
+		return new ENGINE2D.InputState().Update(this.type, this.state, this.event, this.previous, this.next);
 	}
 };

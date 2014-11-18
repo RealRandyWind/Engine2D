@@ -3,6 +3,8 @@
  engine/Vector2.js\
  engine/Matrix3.js\
  engine/Vector.js\
+ engine/Set.js\
+ engine/Promise.js\
  engine/Promise.js\
  engine/LogManager.js\
  engine/LoadingManager.js\

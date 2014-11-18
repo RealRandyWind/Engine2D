@@ -3,6 +3,8 @@ compileJS -O engine2d.min.js^
  engine\Vector2.js^
  engine\Matrix3.js^
  engine\Vector.js^
+ engine\Hit.js^
+ engine\Set.js^
  engine\Promise.js^
  engine\LogManager.js^
  engine\LoadingManager.js^

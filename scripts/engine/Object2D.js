@@ -17,7 +17,7 @@ ENGINE2D.Object2D = function () {
 	
 	this.parent = null;
 	this.childeren = {};
-	this.isOfParentSpace = false;
+	this.isDepended = false;
 	this.isChangedNormal = false;
 	this.isChangedSpecial = false;
 	this.isRenderable = false;
@@ -43,7 +43,7 @@ ENGINE2D.Object2D.prototype = {
 		return this;
 	},
 
-	Translate: function (v) {
+	Move: function (v) {
 		this.isChangedNormal = true;
 
 		this.position.Add(v);
@@ -51,16 +51,16 @@ ENGINE2D.Object2D.prototype = {
 		return this;
 	},
 
-	TranslateAlonge: function (axis, d) {
+	MoveAlonge: function (axis, d) {
 		this.isChangedNormal = true;
 		/*Perpendicular*/
 		this.position.Add2( axis.x * d.x, axis.y * d.y );
 		
-		console.warn('_WARNING: [Object2D.TranslateAlonge] function not yet proper');
+		console.warn('_WARNING: [Object2D.MoveAlonge] function not yet proper');
 		return this;
 	},
 
-	TranslateOn: function (axis, alpha) {
+	MoveOn: function (axis, alpha) {
 		this.isChangedNormal = true;
 
 		this.position.Add2( axis.x * alpha, axis.y * alpha );
@@ -120,6 +120,7 @@ ENGINE2D.Object2D.prototype = {
 
 	UpdateMatrix: function () {
 		/*TODO ensure proper update, still not oke*/
+
 		if (this.isChangedNormal) {
 			this.modelMatrix.Rotate2(this.rotation);
 			this.modelMatrix.ScaleVector2(this.scaling);
@@ -134,6 +135,27 @@ ENGINE2D.Object2D.prototype = {
 		this.isChangedSpecial = false;
 		this.isChangedNormal = false;
 
+		return this;
+	},
+
+	UpdateDependent: function () {
+		if (this.isChangedNormal || this.isChangedSpecial) {
+			console.warn('_WARNING: [Object2D.UpdateDependent] matrix of current object not yet updated, but already used to update childeren.');
+		}
+
+		for (var uid in this.childeren) {
+			if (!this.childeren.hasOwnProperty(uid)) { continue; }
+			
+			var child = this.childeren[uid];
+			
+			if (!child.isDepended) { continue; }
+
+			child.Transform(this.modelMatrix);
+			child.UpdateMatrix();
+			child.UpdateDependent();
+		}
+
+		console.warn('_WARNING: [Object2D.UpdateDependent] function not yet proper');
 		return this;
 	},
 
