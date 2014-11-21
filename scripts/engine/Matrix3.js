@@ -88,7 +88,7 @@ ENGINE2D.Matrix3.prototype = {
 
 	/*ASSIGNMENT OPERATIONS*/
 
-	ApplyMatrices3: function (m,b) {
+	ApplyMatrices3: function (b,m) {
 		this.a11 = b.a11 * m.a11 + b.a12 * m.a21 + b.a13 * m.a31;
 		this.a21 = b.a21 * m.a11 + b.a22 * m.a21 + b.a23 * m.a31;
 		this.a31 = b.a31 * m.a11 + b.a32 * m.a21 + b.a33 * m.a31;
