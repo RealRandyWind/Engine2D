@@ -514,8 +514,13 @@ ENGINE2D.Matrix3.prototype = {
 	},
 
 	SetMVP: function (model,view,projection) {
+		/*TODO find better solution*/
+		view.a13 *= -1;
+		view.a23 *= -1;
 		this.ApplyMatrices3(projection,view);
 		this.ApplyMatrix3(model);
+		view.a13 *= -1;
+		view.a23 *= -1;
 
 		return this;
 	},

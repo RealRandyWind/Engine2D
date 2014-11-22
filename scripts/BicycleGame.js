@@ -46,7 +46,7 @@ BicycleGame.prototype.OnSetUp = function () {
 	).UpdateMatrix();
 
 	var staticObject2 = new ENGINE2D.StaticObject(
-		new ENGINE2D.Geometry([{x: 0.0, y: -16.0}, {x: 4.0, y: 16.0}, {x: -4.0, y: 16.0}]),
+		new ENGINE2D.Geometry([{x: 0.0, y: 16.0}, {x: 4.0, y: -16.0}, {x: -4.0, y: -16.0}]),
 		new ENGINE2D.Material(undefined, 0, new ENGINE2D.Vector2(16, 32), false),
 		new ENGINE2D.Vector2(-ox, -oy),
 		new ENGINE2D.Vector2(0.0, 1.0)
@@ -119,8 +119,8 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 		camera.Rotate(theta);
 	}
 
-	object.MoveOn(object.direction, inputMoveBack.state - inputCycle.state);
-	object.MoveOn(rightHand, inputMoveLeft.state - inputMoveRight.state);
+	object.MoveOn(object.direction, inputCycle.state -  inputMoveBack.state);
+	object.MoveOn(rightHand, inputMoveRight.state - inputMoveLeft.state);
 
 	object.UpdateMatrix();
 

@@ -7,7 +7,6 @@ ENGINE2D.Renderer = function (logManager) {
 	this.context = undefined;
 
 	this.projectionMatrix = new ENGINE2D.Matrix3();
-	this.projectionMatrix.a33 = -1;
 };
 
 ENGINE2D.Renderer.prototype = {
@@ -24,7 +23,7 @@ ENGINE2D.Renderer.prototype = {
 		this.height = height;
 		this.canvas.width = this.width;
 		this.canvas.height = this.height;
-		this.projectionMatrix.Set2(1.0, 0.0, this.width / 2, 0.0, 1.0, this.height / 2);
+		this.projectionMatrix.Set2(-1.0, 0.0, this.width / 2, 0.0, -1.0, this.height / 2);
 	},
 
 	SetUp: function () {
