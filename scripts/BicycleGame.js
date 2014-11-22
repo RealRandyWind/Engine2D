@@ -53,7 +53,6 @@ BicycleGame.prototype.OnSetUp = function () {
 	).UpdateMatrix();
 
 	/*camera.Zoom(2.0);*/
-	camera.SetParent(staticObject2);
 	staticObject2.AddChild(camera);
 
 	this.game.AddScene(scene);

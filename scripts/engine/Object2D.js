@@ -15,7 +15,7 @@ ENGINE2D.Object2D = function () {
 
 	this.modelMatrix = new ENGINE2D.Matrix3();
 	
-	this.parent = null;
+	this.parent = undefined;
 	this.childeren = {};
 	this.isDepended = false;
 	this.isChangedNormal = false;
@@ -170,6 +170,11 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	AddChild: function (object) {
+		if (object.parent !== undefined) {
+			object.parent.RemoveChild(object);
+		}
+
+		object.parent = this;
 		this.childeren[object.uid] = object;
 
 		return this;
@@ -177,12 +182,9 @@ ENGINE2D.Object2D.prototype = {
 
 	RemoveChild: function (object) {
 		delete this.childeren[object.uid];
+		this.object.parent = undefined;
 
 		return this;
-	},
-
-	SetParent: function (object) {
-		this.parent = object;
 	},
 
 	SetDepended: function (isDepended) {
@@ -190,12 +192,18 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	ClearChildren: function () {
+		for (var uid in this.childeren) {
+			if (this.childeren.hasOwnProperty(uid)) {
+				this.childeren[uid].parent = undefined;
+			}
+		}
+
 		this.childeren = {};
 
 		return this;
 	},
 
-	IsChanged: function (argument) {
+	IsChanged: function () {
 		return this.isChangedNormal || isChangedNormal;
 	}
 };
