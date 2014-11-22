@@ -53,10 +53,8 @@ ENGINE2D.Object2D.prototype = {
 
 	MoveAlonge: function (axis, d) {
 		this.isChangedNormal = true;
-		/*Perpendicular*/
-		this.position.Add2( axis.x * d.x, axis.y * d.y );
+		this.position.Add2( axis.x * d.x - axis.y * d.y, axis.y * d.x + axis.x * d.y);
 		
-		console.warn('_WARNING: [Object2D.MoveAlonge] function not yet proper');
 		return this;
 	},
 
@@ -187,9 +185,17 @@ ENGINE2D.Object2D.prototype = {
 		this.parent = object;
 	},
 
+	SetDepended: function (isDepended) {
+		this.isDepended = isDepended;
+	},
+
 	ClearChildren: function () {
 		this.childeren = {};
 
 		return this;
+	},
+
+	IsChanged: function (argument) {
+		return this.isChangedNormal || isChangedNormal;
 	}
 };
