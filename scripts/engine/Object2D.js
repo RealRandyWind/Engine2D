@@ -9,6 +9,8 @@ ENGINE2D.Object2D = function () {
 
 	this.position = new ENGINE2D.Vector2( 0.0, 0.0 );
 	this.direction = new ENGINE2D.Vector2( 0.0, 1.0 );
+
+	this.translation = new ENGINE2D.Vector2( 0.0, 0.0 ); 
 	this.scaling = new ENGINE2D.Vector2( 1.0, 1.0 );
 	this.rotation = 0.0;
 	this.transformation = new ENGINE2D.Matrix3();
@@ -38,22 +40,34 @@ ENGINE2D.Object2D.prototype = {
 
 	MoveTo: function (p) {
 		this.isChangedNormal = true;
-		this.position.Assign(p);
 		
+
+		this.translation.Assign(p);
+
+		/* TODO fix update position*/
+		this.position.Assign(p);
+
 		return this;
 	},
 
 	Move: function (v) {
 		this.isChangedNormal = true;
 
-		this.position.Add(v);
+		this.translation.Add(p);
+
+		/* TODO fix update position*/
+		this.position.Assign(this.translation);
 		
 		return this;
 	},
 
 	MoveAlonge: function (axis, d) {
 		this.isChangedNormal = true;
-		this.position.Add2( axis.x * d.x - axis.y * d.y, axis.y * d.x + axis.x * d.y);
+		
+		this.translation.Add2( axis.x * d.x - axis.y * d.y, axis.y * d.x + axis.x * d.y);
+
+		/* TODO fix update position*/
+		this.position.Assign(this.translation);
 		
 		return this;
 	},
@@ -61,7 +75,10 @@ ENGINE2D.Object2D.prototype = {
 	MoveOn: function (axis, alpha) {
 		this.isChangedNormal = true;
 
-		this.position.Add2( axis.x * alpha, axis.y * alpha );
+		this.translation.Add2( axis.x * alpha, axis.y * alpha );
+
+		/* TODO fix update position*/
+		this.position.Assign(this.translation);
 		
 		return this;
 	},
@@ -69,8 +86,9 @@ ENGINE2D.Object2D.prototype = {
 	Rotate: function (theta) {
 		this.isChangedNormal = true;
 
-		/*this.direction*/
 		this.rotation += theta;
+
+		/* TODO fix update direction*/
 
 		return this;
 	},
@@ -82,7 +100,7 @@ ENGINE2D.Object2D.prototype = {
 		this.transformation.ApplyTranslate2(-p.x,-p.y);
 		this.transformation.Rotate2(theta);
 
-		/*decopose position and rotation and scaling*/
+		/* TODO fix update direction and position*/
 
 		console.warn('_WARNING: [Object2D.RotateAround] function not yet proper');
 		return this;
@@ -110,7 +128,7 @@ ENGINE2D.Object2D.prototype = {
 		
 		this.transformation.ApplyMatrix3(m);
 
-		/*decopose position and rotation and scaling*/
+		/* TODO extract scale, rotate, translate and fix update direction, position, scale*/
 
 		console.warn('_WARNING: [Object2D.Transform] function not yet proper');
 		return this;
@@ -120,9 +138,9 @@ ENGINE2D.Object2D.prototype = {
 		/*TODO ensure proper update, still not oke*/
 
 		if (this.isChangedNormal) {
-			this.modelMatrix.Rotate2(this.rotation);
+			this.modelMatrix.SetRotate2(this.rotation);
 			this.modelMatrix.ScaleVector2(this.scaling);
-			this.modelMatrix.SetTranslate2D(this.position);
+			this.modelMatrix.SetTranslateVector2(this.translation);
 		}
 		
 		if (this.isChangedSpecial) {

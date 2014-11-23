@@ -2,6 +2,8 @@ ENGINE2D.InputState = function () {
 	this.type = -1;
 	this.state = 0;
 	this.event = undefined;
+	this.position = new ENGINE2D.Vector2(0.0, 0.0);
+	this.position.isDefined = false;
 	this.previous = null;
 	this.next = null;
 };
@@ -14,7 +16,9 @@ ENGINE2D.InputState.prototype = {
 		this.type = type;
 		this.state = state;
 		this.event = event;
-		this.position = {x: x, y: y, isDefined: (x !== undefined) && (y !== undefined)};
+		
+		this.UpdatePosition(x, y);
+		
 		this.previous = previous;
 		this.next = next;
 
@@ -35,6 +39,15 @@ ENGINE2D.InputState.prototype = {
 
 	GetEvent: function () {
 		return this.event;
+	},
+
+	UpdatePosition: function (x, y) {
+		this.position.isDefined = (x !== undefined) && (y !== undefined);
+
+		if (this.position.isDefined) {
+			this.position.x = x;
+			this.position.y = y;
+		}
 	},
 
 	SetNext: function (inputState) {

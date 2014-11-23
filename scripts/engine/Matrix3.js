@@ -8,20 +8,10 @@ ENGINE2D.Matrix3.prototype = {
 
 	constructor: ENGINE2D.Matrix3,
 
-	Rotate2: function (theta) {
-		var b11 = Math.cos(theta); var b12 = -Math.sin(theta);
-		var b21 = Math.sin(theta); var b22 = Math.cos(theta);
-
-		this.a11 = this.a11 * b11 + this.a12 * b21; this.a12 = this.a11 * b12 + this.a12 * b22;
-		this.a21 = this.a21 * b11 + this.a22 * b21; this.a22 = this.a21 * b12 + this.a22 * b22;
-
-		return this;
-	},
-
 	/*SPECIAL MATRIX OPERATIONS*/
 	Translate2: function (dx, dy) {
-		this.a13 += dx;
-		this.a23 += dy;
+		this.a13 += this.a11 * dx + this.a12 * dy + dx;
+		this.a23 += this.a21 * dx + this.a22 * dy + dy;
 
 		return this;
 	},
@@ -45,9 +35,9 @@ ENGINE2D.Matrix3.prototype = {
 		return this;
 	},
 
-	TranslateVector2: function (v) {
-		this.a13 += v.x;
-		this.a23 += v.y;
+	TranslateVector2: function (d) {
+		this.a13 += this.a11 * d.x + this.a12 * d.y + d.x;
+		this.a23 += this.a21 * d.x + this.a22 * d.y + d.y;
 
 		return this;
 	},
@@ -68,20 +58,6 @@ ENGINE2D.Matrix3.prototype = {
 
 		this.a11 = ux * c11 + uy * c12; this.a12 = vx * c11 + vy * c12;
 		this.a21 = ux * c21 + uy * c22; this.a22 = vx * c21 + vy * c22;
-
-		return this;
-	},
-
-	ApplyTranslate: function (dx,dy) {
-		this.a13 += dx * this.a11 + dy * this.a12;
-		this.a23 += dx * this.a21 + dy * this.a22;
-
-		return this;
-	},
-
-	ApplyTranslateVector2: function (v) {
-		this.a13 += v.x * this.a11 + v.y * this.a12;
-		this.a23 += v.x * this.a21 + v.y * this.a22;
 
 		return this;
 	},
@@ -489,7 +465,7 @@ ENGINE2D.Matrix3.prototype = {
 		return this;
 	},
 
-	SetVectorDiagonal2D: function (d) {
+	SetDiagonalVector2: function (d) {
 		this.a11 = d.x;
 		this.a22 = d.y;
 
@@ -497,13 +473,15 @@ ENGINE2D.Matrix3.prototype = {
 	},
 
 	SetRotate2: function (theta) {
-		this.a11 = Math.cos(theta); this.a12 = -Math.sin(theta);
-		this.a21 = Math.sin(theta); this.a22 = Math.cos(theta);
+		var cos = Math.cos(theta); var sin = Math.sin(theta);
+
+		this.a11 = cos; this.a12 = -sin;
+		this.a21 = sin; this.a22 = cos;
 
 		return this;
 	},
 
-	SetTranslate2D: function (p) {
+	SetTranslateVector2: function (p) {
 		this.a13 = p.x;
 		this.a23 = p.y;
 	},

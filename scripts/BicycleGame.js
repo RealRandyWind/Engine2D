@@ -111,12 +111,15 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 
 	var inputSteerLast = inputSteer.previous;
 	if (inputSteerLast.position.isDefined) {
-		var theta = 0.0;
+		var theta = inputSteerLast.position.Angle(inputSteer.position);
 		var point1 = new ENGINE2D.Vector2(inputSteerLast.position.x, inputSteerLast.position.y);
 		var point2 = new ENGINE2D.Vector2(inputSteer.position.x, inputSteerLast.position.y);
 		object.Rotate(theta);
 		camera.Rotate(theta);
 	}
+
+	//object.Rotate(1.0 * ENGINE2D.TORADIANS);
+	//camera.ScaleUniform(1.001);
 
 	object.MoveOn(object.direction, inputCycle.state -  inputMoveBack.state);
 	object.MoveOn(rightHand, inputMoveRight.state - inputMoveLeft.state);
