@@ -20,9 +20,10 @@ ENGINE2D.Object2D = function () {
 	this.parent = undefined;
 	this.childeren = {};
 	this.isDepended = false;
-	this.isChangedNormal = false;
-	this.isChangedSpecial = false;
 	this.isRenderable = false;
+
+	this.isTransformed = false;
+	this.isChanged = false;
 };
 
 ENGINE2D.Object2D.prototype = {
@@ -31,7 +32,7 @@ ENGINE2D.Object2D.prototype = {
 
 	LookAt: function (p) {
 		/* TODO */
-		this.isChangedNormal = true;
+		this.isChanged = true;
 		/*this.rotation*/
 		this.direction.Assign(p).Normalize();
 		/*console.warn('_WARNING: [Object2D.RotateAround] function not yet proper');*/
@@ -39,7 +40,7 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	MoveTo: function (p) {
-		this.isChangedNormal = true;
+		this.isChanged = true;
 		
 
 		this.translation.Assign(p);
@@ -51,7 +52,7 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	Move: function (v) {
-		this.isChangedNormal = true;
+		this.isChanged = true;
 
 		this.translation.Add(p);
 
@@ -62,7 +63,7 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	MoveAlonge: function (axis, d) {
-		this.isChangedNormal = true;
+		this.isChanged = true;
 		
 		this.translation.Add2( axis.x * d.x - axis.y * d.y, axis.y * d.x + axis.x * d.y);
 
@@ -73,7 +74,7 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	MoveOn: function (axis, alpha) {
-		this.isChangedNormal = true;
+		this.isChanged = true;
 
 		this.translation.Add2( axis.x * alpha, axis.y * alpha );
 
@@ -84,7 +85,7 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	Rotate: function (theta) {
-		this.isChangedNormal = true;
+		this.isChanged = true;
 
 		this.rotation += theta;
 
@@ -94,7 +95,8 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	RotateAround: function (p, theta) {
-		this.isChangedSpecial = true;
+		this.isChanged = true;
+		this.isTransformed = true;
 
 		/*TODO checkit*/
 		this.transformation.ApplyTranslate2(-p.x,-p.y);
@@ -107,7 +109,7 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	ScaleUniform: function (alpha) {
-		this.isChangedNormal = true;
+		this.isChanged = true;
 		
 		this.scaling.MulScalar(alpha);
 
@@ -115,7 +117,7 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	Scale: function (v) {
-		this.isChangedNormal = true;
+		this.isChanged = true;
 
 		this.scaling.x *= v.x;
 		this.scaling.y *= v.y;
@@ -124,7 +126,8 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	Transform: function (m) {
-		this.isChangedSpecial = true;
+		this.isChanged = true;
+		this.isTransformed = true;
 		
 		this.transformation.ApplyMatrix3(m);
 
@@ -136,27 +139,25 @@ ENGINE2D.Object2D.prototype = {
 
 	UpdateMatrix: function () {
 		/*TODO ensure proper update, still not oke*/
-
-		if (this.isChangedNormal) {
+		if (this.isChanged) {
 			this.modelMatrix.SetRotate2(this.rotation);
-			this.modelMatrix.ScaleVector2(this.scaling);
+			this.modelMatrix.ScaleVector2(this.scaling);			
 			this.modelMatrix.SetTranslateVector2(this.translation);
-		}
-		
-		if (this.isChangedSpecial) {
-			this.modelMatrix.ApplyMatrix3(this.transformation);
-			console.warn('_WARNING: [Object2D.UpdateMatrix] function not yet proper');
+
+			/* TODO where to place transformation? before or after tranlation?*/
+			if (this.isTransformed) {
+				this.modelMatrix.ApplyMatrix3(this.transformation);
+			}
 		}
 
-		this.isChangedSpecial = false;
-		this.isChangedNormal = false;
+		this.isChanged = false;
 
 		return this;
 	},
 
 	UpdateDependent: function () {
-		if (this.isChangedNormal || this.isChangedSpecial) {
-			console.warn('_WARNING: [Object2D.UpdateDependent] matrix of current object not yet updated, but already used to update childeren.');
+		if (this.isChanged) {
+			console.warn('_WARNING: [Object2D.UpdateDependent] matrix of current object not yet updated, but already used to update childeren dependencies.');
 		}
 
 		for (var uid in this.childeren) {
@@ -165,6 +166,10 @@ ENGINE2D.Object2D.prototype = {
 			var child = this.childeren[uid];
 			
 			if (!child.isDepended) { continue; }
+
+			if (child.isChanged) {
+				console.warn('_WARNING: [Object2D.UpdateDependent] matrix of current child not yet updated, but already used to update dependency.');
+			}
 
 			child.Transform(this.modelMatrix);
 			child.UpdateMatrix();
@@ -222,6 +227,6 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	IsChanged: function () {
-		return this.isChangedNormal || isChangedNormal;
+		return this.isChanged;
 	}
 };
