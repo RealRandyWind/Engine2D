@@ -19,9 +19,9 @@ ENGINE2D.Vector.prototype = {
 	},
 
 	Merge: function (vector) {
-		for ( var propertie in vector) {
-			if (vector.hasOwnProperty(propertie)) {
-				this.properties[propertie] = vector[propertie];
+		for ( var propertie in vector.properties) {
+			if (vector.properties.hasOwnProperty(propertie)) {
+				this.properties[propertie] = vector.properties[propertie];
 			}
 		}
 		return this;
@@ -37,23 +37,45 @@ ENGINE2D.Vector.prototype = {
 		return new ENGINE2D.Vector(this.properties.concat());
 	},
 
+	ApplyScalar: function (operator, scalar) {
+		for ( var propertie in this.properties) {
+			if (this.properties.hasOwnProperty(propertie)) {
+				this._ApplyOperation(propertie, operator, scalar);
+			}
+		}
+	},
+
+	ApplyScalar2: function (operators, scalar) {
+		if (operators.length !== this.properties.length) {
+			console.warn('_WARNING: [Vector.ApplyScalar2] number of operators must equal numer of properties');
+			return;
+		}
+
+		for ( var propertie in this.properties) {
+			if (this.properties.hasOwnProperty(propertie)) {
+				this._ApplyOperation(propertie, operators[propertie], scalar);
+			}
+		}
+	},
+
 	ApplyVector: function (operator, vector) {
-		for ( var propertie in vector) {
-			if (vector.hasOwnProperty(propertie)) {
-				this._ApplyOperation(propertie, operator, this.properties[propertie]);
+		for ( var propertie in vector.properties) {
+			if (vector.properties.hasOwnProperty(propertie)) {
+				this._ApplyOperation(propertie, operator, vector.properties[propertie], vector.properties);
 			}
 		}
 	},
 
 	ApplyVector2: function (operators, vector) {
-		if (operators.length !== vector.length) {
-			console.warn('_WARNING: [Vector.ApplyVector2]');
+		var n = vector.properties.length;
+		if (operators.length !== n ||  n !== this.properties.length) {
+			console.warn('_WARNING: [Vector.ApplyVector2] number of operators and vector.properties must equal numer of properties');
 			return;
 		}
 
-		for ( var propertie in vector) {
-			if (vector.hasOwnProperty(propertie)) {
-				this._ApplyOperation(propertie, operators[propertie], this.properties[propertie], vector);
+		for ( var propertie in vector.properties) {
+			if (vector.properties.hasOwnProperty(propertie)) {
+				this._ApplyOperation(propertie, operators[propertie], vector.properties[propertie], vector.properties);
 			}
 		}
 	},
@@ -83,7 +105,7 @@ ENGINE2D.Vector.prototype = {
 				this.properties[propertie] *= value;
 			} break;
 			case ENGINE2D.VECTOROP_DIV: {
-				if (value===0) { console.warn('_WARNING: [Vector._ApplyOperation] division by zero'); return; }
+				if (value === 0) { console.warn('_WARNING: [Vector._ApplyOperation] division by zero'); }
 				var invvalue = 1/value;
 				this.properties[propertie] *= invvalue;
 			} break;
@@ -94,7 +116,8 @@ ENGINE2D.Vector.prototype = {
 				this.properties[propertie] = value;
 			} break;
 			case ENGINE2D.VECTOROP_SWAP: {
-				var temp = this.properties[propertie]; this.properties[propertie] = value; properties2[propertie] = temp;
+				if (properties2 === undefined) { console.warn('_WARNING: [Vector._ApplyOperation] operation not supported'); }
+				this.properties[propertie] = properties2[propertie]; properties2[propertie] = value;
 			} break;
 			case ENGINE2D.VECTOROP_INSERT: {
 				this.properties[propertie].Insert(value);
