@@ -117,7 +117,7 @@ ENGINE2D.Vector.prototype = {
 			} break;
 			case ENGINE2D.VECTOROP_SWAP: {
 				if (properties2 === undefined) { console.warn('_WARNING: [Vector._ApplyOperation] operation not supported'); }
-				this.properties[propertie] = properties2[propertie]; properties2[propertie] = value;
+				properties2[propertie] = this.properties[propertie]; this.properties[propertie] = value;
 			} break;
 			case ENGINE2D.VECTOROP_INSERT: {
 				this.properties[propertie].Insert(value);
