@@ -300,7 +300,9 @@ ENGINE2D.Vector2.prototype = {
 	},
 
 	Angle: function (v) {
-		return Math.acos(this.Cos(v));
+		if (this.Equals(v)) { return 0; }
+
+		return Math.acos(this.Cos(v));;
 	},
 
 	Project: function (v) {

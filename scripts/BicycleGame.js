@@ -24,6 +24,7 @@ BicycleGame.prototype.OnSetUp = function () {
 	keyMap[ENGINE2D.STATE_MOUSEMOVE] = 'steer';
 	var control = new ENGINE2D.ControlKeyboardMouse(this.container, this.logManager);
 	control.SetKeyMap(keyMap);
+	control.SetTrace('steer',1);
 	this.game.AddControl('keyboardmouse',control);
 
 	var gw = 6462; var gh = 5306;
@@ -97,8 +98,6 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 	var inputMoveRight = control.GetState('moveright');
 	var inputSteer = control.GetState('steer');
 	
-	inputSteer.SetPrevious(inputSteer.Copy());
-	inputSteer.previous.SetNext(inputSteer).SetPrevious(undefined);
 	var rightHand = object.direction.Copy().Perpendicular();
 
 	/* use mouse point and look at the point in world coordinates
@@ -110,12 +109,11 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 	*/
 
 	var inputSteerLast = inputSteer.previous;
-	if (inputSteerLast.position.isDefined) {
-		var theta = inputSteerLast.position.Angle(inputSteer.position);
-		var point1 = new ENGINE2D.Vector2(inputSteerLast.position.x, inputSteerLast.position.y);
-		var point2 = new ENGINE2D.Vector2(inputSteer.position.x, inputSteerLast.position.y);
+	if (inputSteer.position.isDefined && inputSteerLast.position.isDefined) {
+		//var theta = inputSteerLast.position.Angle(inputSteer.position);
+		
 		object.Rotate(theta);
-		camera.Rotate(theta);
+		//camera.Rotate(theta);
 	}
 
 	//object.Rotate(1.0 * ENGINE2D.TORADIANS);

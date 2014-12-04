@@ -4,23 +4,21 @@ ENGINE2D.InputState = function () {
 	this.event = undefined;
 	this.position = new ENGINE2D.Vector2(0.0, 0.0);
 	this.position.isDefined = false;
-	this.previous = null;
-	this.next = null;
+	this.previous = undefined;
+	this.next = undefined;
+	this.length = 1;
 };
 
 ENGINE2D.InputState.prototype = {
 
 	constructor: ENGINE2D.InputState,
 
-	Update: function (type, state, event, previous, next, x, y) {
+	Update: function (type, state, event, x, y) {
 		this.type = type;
 		this.state = state;
 		this.event = event;
 		
 		this.UpdatePosition(x, y);
-		
-		this.previous = previous;
-		this.next = next;
 
 		return this;
 	},
@@ -63,6 +61,6 @@ ENGINE2D.InputState.prototype = {
 	},
 
 	Copy: function () {
-		return new ENGINE2D.InputState().Update(this.type, this.state, this.event, this.previous, this.next, this.x, this.y);
+		return new ENGINE2D.InputState().Update(this.type, this.state, this.event, this.position.x, this.position.y);
 	}
 };
