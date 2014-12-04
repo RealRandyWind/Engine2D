@@ -272,7 +272,7 @@ ENGINE2D.Vector2.prototype = {
 
 	/*VECTOR OPPERATINOS*/
 	Length2: function () {
-		return this.x* this.x + this.y* this.y;
+		return this.x * this.x + this.y * this.y;
 	},
 
 	Length: function () {
@@ -283,7 +283,7 @@ ENGINE2D.Vector2.prototype = {
 		if(n===1){
 			return this.x + this.y;
 		} else if (n===2) {
-			return Math.sqrt(this.x* this.x + this.y* this.y);
+			return Math.sqrt(this.x * this.x + this.y * this.y);
 		} else if (n===Infinity) {
 			return this.MaxElement();
 		}
@@ -292,7 +292,7 @@ ENGINE2D.Vector2.prototype = {
 	},
 
 	Dot: function (v) {
-		return this.x*v.x + this.y*v.y;
+		return this.x * v.x + this.y * v.y;
 	},
 
 	Cos: function (v) {
@@ -302,7 +302,8 @@ ENGINE2D.Vector2.prototype = {
 	Angle: function (v) {
 		if (this.Equals(v)) { return 0; }
 
-		return Math.acos(this.Cos(v));;
+		var dir = Math.sign(this.x * v.y - this.y * v.x);
+		return dir*Math.acos(this.Cos(v));;
 	},
 
 	Project: function (v) {

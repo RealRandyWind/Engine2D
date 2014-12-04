@@ -70,6 +70,9 @@ BicycleGame.prototype.OnSetUp = function () {
 	gameState.SetControl(control);
 	this.game.SetGameState(gameState);
 
+	this.vectorUp = new ENGINE2D.Vector2(0.0, 1.0);
+	this.vectorPointer =  new ENGINE2D.Vector2(0.0, 1.0);
+
 	/*imageLoader.Load()*/
 	/*STUB END*/
 	this.logManager.Success('[BicycleGame.OnSetUp]');
@@ -110,10 +113,13 @@ BicycleGame.prototype.OnSimulate = function (t, dt) {
 
 	var inputSteerLast = inputSteer.previous;
 	if (inputSteer.position.isDefined && inputSteerLast.position.isDefined) {
-		//var theta = inputSteerLast.position.Angle(inputSteer.position);
+		var center = new ENGINE2D.Vector2(this.game.renderer.width/2, this.game.renderer.height/2);
+		this.vectorPointer.SubVectors(center,inputSteer.position).Normalize();
+
+		var theta = this.vectorUp.Angle(this.vectorPointer);
+		object.SetRotate(theta);
 		
-		object.Rotate(theta);
-		//camera.Rotate(theta);
+		//camera.SetRotate(theta);
 	}
 
 	//object.Rotate(1.0 * ENGINE2D.TORADIANS);

@@ -85,6 +85,11 @@ ENGINE2D.Object2D.prototype = {
 	},
 
 	Rotate: function (theta) {
+		if(isNaN(theta)) { 
+			console.warn('_WARNING: [Object2D.Rotate] alpha is not a number');
+			return this; 
+		}
+
 		this.isChanged = true;
 
 		this.rotation += theta;
@@ -94,7 +99,27 @@ ENGINE2D.Object2D.prototype = {
 		return this;
 	},
 
+	SetRotate: function (theta) {
+		if(isNaN(theta)) { 
+			console.warn('_WARNING: [Object2D.SetRotate] alpha is not a number');
+			return this; 
+		}
+		
+		this.isChanged = true;
+
+		this.rotation = theta;
+
+		/* TODO fix update direction*/
+
+		return this;
+	},
+
 	RotateAround: function (p, theta) {
+		if(isNaN(theta)) { 
+			console.warn('_WARNING: [Object2D.RotateAround] alpha is not a number');
+			return this; 
+		}
+
 		this.isChanged = true;
 		this.isTransformed = true;
 
@@ -119,8 +144,15 @@ ENGINE2D.Object2D.prototype = {
 	Scale: function (v) {
 		this.isChanged = true;
 
-		this.scaling.x *= v.x;
-		this.scaling.y *= v.y;
+		this.scaling.Mul(v);
+
+		return this;
+	},
+
+	SetScale: function (v) {
+		this.isChanged = true;
+
+		this.scaling.Assign(v);
 
 		return this;
 	},
@@ -130,6 +162,18 @@ ENGINE2D.Object2D.prototype = {
 		this.isTransformed = true;
 		
 		this.transformation.ApplyMatrix3(m);
+
+		/* TODO extract scale, rotate, translate and fix update direction, position, scale*/
+
+		console.warn('_WARNING: [Object2D.Transform] function not yet proper');
+		return this;
+	},
+
+	SetTransform: function (m) {
+		this.isChanged = true;
+		this.isTransformed = true;
+		
+		this.transformation.Assign(m);
 
 		/* TODO extract scale, rotate, translate and fix update direction, position, scale*/
 
