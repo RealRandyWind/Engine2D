@@ -3,8 +3,8 @@ ENGINE2D.Empty = function (position, direction) {
 	ENGINE2D.Object2D.call(this);
 	
 	this.type = ENGINE2D.OBJECT2DTYPE_EMPTY;
-
-	this.LookAt(direction);
+	
+	this.Rotate(this.direction.Angle(direction.Normalize()));
 	this.MoveTo(position);
 };
 

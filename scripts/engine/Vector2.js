@@ -401,7 +401,7 @@ ENGINE2D.Vector2.prototype = {
 
 	Equals: function (v) {
 		return ( this.x == v.x ) && 
-      ( this.y == v.y );
+	  ( this.y == v.y );
 	},
 
 	ZeroEps: function (eps) {
@@ -428,11 +428,11 @@ ENGINE2D.Vector2.prototype = {
 	/*CHECKS*/
 	EqualsEps: function (v,eps) {
 		return ( Math.abs( this.x - v.x ) <= eps ) && 
-      ( Math.abs( this.y - v.y ) <= eps );
+			( Math.abs( this.y - v.y ) <= eps );
 	},
 
 	Iszero: function (eps) {
 		return ( Math.abs( this.x ) <= eps ) && 
-      ( Math.abs( this.y ) <= eps );
+			( Math.abs( this.y ) <= eps );
 	}
 };

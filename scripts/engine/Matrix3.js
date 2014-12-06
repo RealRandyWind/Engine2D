@@ -16,6 +16,15 @@ ENGINE2D.Matrix3.prototype = {
 		return this;
 	},
 
+	Rotate2: function (theta) {
+		var cos = Math.cos(theta); var sin = Math.sin(theta);
+
+		this.a11 *= cos; this.a12 *= -sin;
+		this.a21 *= sin; this.a22 *= cos;
+
+		return this;
+	},
+
 	ScaleUniform: function (c) {
 		this.a11 *= c; this.a12 *= c; this.a13 *= c;
 		this.a21 *= c; this.a22 *= c; this.a23 *= c;
@@ -370,29 +379,33 @@ ENGINE2D.Matrix3.prototype = {
 	Norm: function (n) {
 		if(n===1){
 			return this.a11 + this.a12 + this.a13 + 
-        this.a21 + this.a22 + this.a23 + 
-        this.a31 + this.a32 + this.a33;
+				this.a21 + this.a22 + this.a23 + 
+				this.a31 + this.a32 + this.a33;
 		} else if (n===2) {
 			return Math.sqrt( this.a11*this.a11 + this.a12*this.a12 + this.a13*this.a13 + 
-                        this.a21*this.a21 + this.a22*this.a22 + this.a23*this.a23 + 
-                        this.a31*this.a31 + this.a32*this.a32 + this.a33*this.a33);
+				this.a21*this.a21 + this.a22*this.a22 + this.a23*this.a23 + 
+				this.a31*this.a31 + this.a32*this.a32 + this.a33*this.a33);
 		} else if (n===Infinity) {
 			return this.MaxElement();
 		}
 
 		return Math.pow( Math.pow(this.a11,n) + Math.pow(this.a12,n) + Math.pow(this.a13,n) + 
-                     Math.pow(this.a21,n) + Math.pow(this.a22,n) + Math.pow(this.a23,n) + 
-                     Math.pow(this.a31,n) + Math.pow(this.a32,n) + Math.pow(this.a33,n),
-                     1/n);
+			Math.pow(this.a21,n) + Math.pow(this.a22,n) + Math.pow(this.a23,n) + 
+			Math.pow(this.a31,n) + Math.pow(this.a32,n) + Math.pow(this.a33,n),
+			1/n);
 	},
 
 	Det: function () {
 		return ( this.a11 * this.a22 * this.a33 + 
-    			 	 this.a12 * this.a23 * this.a31 + 
-      			 this.a13 * this.a21 * this.a32 ) - 
-      		 ( this.a13 * this.a22 * this.a31 + 
-      			 this.a12 * this.a21 * this.a33 + 
-      			 this.a11 * this.a23 * this.a32 );
+			this.a12 * this.a23 * this.a31 + 
+			this.a13 * this.a21 * this.a32 ) - 
+			( this.a13 * this.a22 * this.a31 + 
+			this.a12 * this.a21 * this.a33 + 
+			this.a11 * this.a23 * this.a32 );
+	},
+
+	Det2: function () {
+		return ( this.a11 * this.a22 - this.a21 * this.a12 );
 	},
 
 	Invert: function () {
@@ -630,14 +643,14 @@ ENGINE2D.Matrix3.prototype = {
 
 	Equals: function (m) {
 		return (this.a11 == m.a11) && 
-      (this.a12 == m.a12) && 
-      (this.a13 == m.a13) && 
-      (this.a21 == m.a21) && 
-      (this.a22 == m.a22) && 
-      (this.a23 == m.a23) && 
-      (this.a31 == m.a31) && 
-      (this.a32 == m.a32) && 
-      (this.a33 == m.a33);
+			(this.a12 == m.a12) && 
+			(this.a13 == m.a13) && 
+			(this.a21 == m.a21) && 
+			(this.a22 == m.a22) && 
+			(this.a23 == m.a23) && 
+			(this.a31 == m.a31) && 
+			(this.a32 == m.a32) && 
+			(this.a33 == m.a33);
 	},
 
 	ZeroEps: function (eps) {
@@ -685,25 +698,25 @@ ENGINE2D.Matrix3.prototype = {
 	/*CHECKS*/
 	EqualsEps: function (m,eps) {
 		return ( Math.abs( this.a11 - m.a11 ) <= eps ) && 
-      ( Math.abs( this.a12 - m.a12 ) <= eps ) && 
-      ( Math.abs( this.a13 - m.a13 ) <= eps ) && 
-      ( Math.abs( this.a21 - m.a21 ) <= eps ) && 
-      ( Math.abs( this.a22 - m.a22 ) <= eps ) && 
-      ( Math.abs( this.a23 - m.a23 ) <= eps ) && 
-      ( Math.abs( this.a31 - m.a31 ) <= eps ) && 
-      ( Math.abs( this.a32 - m.a32 ) <= eps ) && 
-      ( Math.abs( this.a33 - m.a33 ) <= eps );
+			( Math.abs( this.a12 - m.a12 ) <= eps ) && 
+			( Math.abs( this.a13 - m.a13 ) <= eps ) && 
+			( Math.abs( this.a21 - m.a21 ) <= eps ) && 
+			( Math.abs( this.a22 - m.a22 ) <= eps ) && 
+			( Math.abs( this.a23 - m.a23 ) <= eps ) && 
+			( Math.abs( this.a31 - m.a31 ) <= eps ) && 
+			( Math.abs( this.a32 - m.a32 ) <= eps ) && 
+			( Math.abs( this.a33 - m.a33 ) <= eps );
 	},
 
 	Iszero: function (eps) {
 		return ( Math.abs( this.a11 ) <= eps ) && 
-      ( Math.abs( this.a12 ) <= eps ) && 
-      ( Math.abs( this.a13 ) <= eps ) && 
-      ( Math.abs( this.a21 ) <= eps ) && 
-      ( Math.abs( this.a22 ) <= eps ) && 
-      ( Math.abs( this.a23 ) <= eps ) && 
-      ( Math.abs( this.a31 ) <= eps ) && 
-      ( Math.abs( this.a32 ) <= eps ) && 
-      ( Math.abs( this.a33 ) <= eps );
+			( Math.abs( this.a12 ) <= eps ) && 
+			( Math.abs( this.a13 ) <= eps ) && 
+			( Math.abs( this.a21 ) <= eps ) && 
+			( Math.abs( this.a22 ) <= eps ) && 
+			( Math.abs( this.a23 ) <= eps ) && 
+			( Math.abs( this.a31 ) <= eps ) && 
+			( Math.abs( this.a32 ) <= eps ) && 
+			( Math.abs( this.a33 ) <= eps );
 	}
 };
